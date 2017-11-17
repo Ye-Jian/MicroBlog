@@ -1,6 +1,9 @@
 from flask import Flask
+from flask_script import Manager
 
 app = Flask(__name__)
+
+manager = Manager(app)
 
 
 # 将函数index注册为应用根url的处理程序：
@@ -17,4 +20,4 @@ def user(name):
 
 # 启动Flask集成的开发Web服务器：
 if __name__ == '__main__':
-    app.run(debug=True)
+    manager.run()
