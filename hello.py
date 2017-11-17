@@ -1,11 +1,14 @@
+from datetime import datetime
 from flask import Flask, render_template
 from flask_script import Manager
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 
 app = Flask(__name__)
 
 manager = Manager(app)
 bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 
 # 404错误处理：
@@ -23,7 +26,8 @@ def internal_server_error(e):
 # 将函数index注册为应用根url的处理程序：
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',
+                           current_time=datetime.utcnow())
 
 
 # 添加一个动态路由：
