@@ -1,21 +1,39 @@
-from flask import Flask
+from datetime import datetime
+from flask import Flask, render_template
 from flask_script import Manager
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 
 app = Flask(__name__)
 
 manager = Manager(app)
+bootstrap = Bootstrap(app)
+moment = Moment(app)
+
+
+# 404错误处理：
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+# 500错误处理：
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 
 # 将函数index注册为应用根url的处理程序：
 @app.route('/')
 def index():
-    return '<h1>Hello World!</h1>'
+    return render_template('index.html',
+                           current_time=datetime.utcnow())
 
 
 # 添加一个动态路由：
 @app.route('/user/<name>')
 def user(name):
-    return '<h1>Hello, %s!</h1>' % name
+    return render_template('user.html', name=name)
 
 
 # 启动Flask集成的开发Web服务器：
